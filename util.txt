@@ -1,0 +1,15 @@
+migrations
+https://docs.microsoft.com/pt-br/ef/core/managing-schemas/migrations/
+https://docs.microsoft.com/pt-br/ef/core/modeling/index
+
+dotnet ef migrations add CreateSchema
+dotnet ef database update
+
+context.detach
+https://docs.microsoft.com/pt-br/ef/core/saving/disconnected-entities
+
+webapi
+https://docs.microsoft.com/pt-br/aspnet/core/tutorials/web-api-vsc?view=aspnetcore-2.1
+
+injeção de dependencia
+https://docs.microsoft.com/pt-br/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1
