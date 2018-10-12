@@ -53,8 +53,8 @@ namespace Rdcs
                         .AllowCredentials()
                 )
             );
-            string connectionString = Configuration.GetValue<string>("DbConfiguration:ConnectionString");
-            services.AddDbContext<ApplicationContext>(opt => opt.UseMySql(connectionString));
+            // string connectionString = Configuration.GetValue<string>("DbConfiguration:ConnectionString");
+            // services.AddDbContext<ApplicationContext>(opt => opt.UseMySql(connectionString));
             DependencyResolver.Configure(services);
         }
 

@@ -23,14 +23,14 @@ namespace Rdcs.Core.Resolver
             {
                 Type serviceType = services[i].ServiceType;                   
                 if(serviceType.ToString().IndexOf("Rdcs.Controllers") == 0){
-                    services.AddScoped(serviceType, ctx => GetInstance(services[i])); 
+                    services.AddScoped(serviceType, ctx => GetInstance(serviceType)); 
                 }
             }
         }
 
-        private static dynamic GetInstance(ServiceDescriptor sd) 
+        private static dynamic GetInstance(Type serviceType) 
         {
-            Type serviceType = sd.ServiceType;
+            // Type serviceType = sd.ServiceType;
             DependencyContainer DepContainer = new DependencyContainer(new ApplicationContext());
             dynamic obj = DepContainer.GetInstanceOf(serviceType);
             FieldInfo[] fields = serviceType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
