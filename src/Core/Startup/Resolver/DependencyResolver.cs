@@ -45,7 +45,7 @@ namespace Rdcs.Core.Resolver
             {
                 ResolveSubProperties(DepContainer.Objects[i], DepContainer);
             }
-            DepContainer.Objects.ForEach(x => ResolveContexts(x, DepContainer));
+            DepContainer.Objects.ForEach(x => ResolveContext(x, DepContainer));
             return obj;
         }
 
@@ -62,7 +62,7 @@ namespace Rdcs.Core.Resolver
             }
         }
 
-        private static void ResolveContexts(object obj, DependencyContainer DepContainer)
+        private static void ResolveContext(object obj, DependencyContainer DepContainer)
         {            
             FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);            
             FieldInfo context = fields.Where(x => x.Name.Equals("Context")).FirstOrDefault();

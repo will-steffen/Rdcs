@@ -7,6 +7,9 @@ namespace Rdcs.Core.Context
 {
     public class ApplicationContext : DbContext
     {
+        private static string connectionString;
+        private static bool useInMemory;
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
         public ApplicationContext() : base() { }
 
@@ -16,7 +19,19 @@ namespace Rdcs.Core.Context
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-            optionsBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"));
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                connectionString = configuration.GetConnectionString("DefaultConnection");
+                useInMemory = configuration.GetValue<bool>("ConnectionStrings:UseInMemory");
+            }
+            if (useInMemory)
+            {
+                optionsBuilder.UseInMemoryDatabase();
+            }
+            else
+            {
+                optionsBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"));
+            }            
         }
 
         public DbSet<TodoItem> TodoItem { get; set; }
