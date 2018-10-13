@@ -26,7 +26,7 @@ namespace Rdcs.Core.Context
             }
             if (useInMemory)
             {
-                optionsBuilder.UseInMemoryDatabase();
+                optionsBuilder.UseInMemoryDatabase("in_memory_name");
             }
             else
             {
