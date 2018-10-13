@@ -16,17 +16,17 @@ namespace MyAPI.Api.Controllers
         private ItemDataAccess itemDataAccess;
 
         [HttpGet]
-        public JsonResult Get()
+        public ActionResult Get()
         {
-            return new JsonResult(itemDataAccess.List());
+            return Send(itemDataAccess.List());
         }
 
         [HttpPost]
-        public string Post([FromBody] string name)
+        public ActionResult Post([FromBody] string name)
         {
             Item item = itemService.Create(name);
             itemDataAccess.Save(item);
-            return "OK";
+            return Send("OK");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using MyAPI.Services.Entities;
 using Rdcs.Attributes;
@@ -11,9 +12,9 @@ namespace MyAPI.Api.Controllers
         private SomeService someService;
 
         [HttpGet]
-        public ActionResult<string> Get()
+        public ActionResult Get()
         {
-            return someService.getSomething();
+            return Send(HttpStatusCode.InternalServerError, someService.getSomething());
         }
     }
 }

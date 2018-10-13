@@ -3,6 +3,7 @@ using Rdcs.Test;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net;
 using Xunit;
 
 
@@ -18,7 +19,7 @@ namespace MyAPI.Tests.Api
             using (HttpClient client = new TestClientProvider().Client)
             {
                 HttpResponseMessage response = await client.GetAsync(baseRoute);
-                Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
+                Assert.True(response.StatusCode == HttpStatusCode.OK);
             }
         }
 
@@ -28,7 +29,7 @@ namespace MyAPI.Tests.Api
             using (HttpClient client = new TestClientProvider().Client)
             {                
                 HttpResponseMessage response = await client.PostAsync(baseRoute, TestUtils.RequestBody("Um nome Legal"));
-                Assert.True(response.StatusCode == System.Net.HttpStatusCode.OK);
+                Assert.True(response.StatusCode == HttpStatusCode.OK);
 
                 HttpResponseMessage r2 = await client.GetAsync(baseRoute);
                 List<Item> result = await TestUtils.ReadResponse<List<Item>>(r2);
