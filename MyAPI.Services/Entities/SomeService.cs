@@ -9,7 +9,7 @@ namespace MyAPI.Services.Entities
     public class SomeService : BaseService
     {    
 
-        public string getSomething()
+        public string GetSomething()
         {
             return "Something";
         }

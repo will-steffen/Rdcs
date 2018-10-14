@@ -12,11 +12,11 @@ namespace MyAPI.Api.Controllers
         [Autowired]
         private SomeService someService;
 
-        [Authorize("Bearer")]
+        //[Authorize("Bearer")]
         [HttpGet]
         public ActionResult Get()
         {
-            return Send(HttpStatusCode.InternalServerError, someService.getSomething());
+            return Send(HttpStatusCode.NotFound, someService.GetSomething());
         }
     }
 }

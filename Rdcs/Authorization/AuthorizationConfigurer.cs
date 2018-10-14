@@ -4,21 +4,26 @@ using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Principal;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Rdcs.Authorization
 {
     public class AuthorizationConfigurer
     {
+        public static SigningConfigurations signingConfigurations { get; private set; }
+        public static TokenConfigurations tokenConfigurations { get; private set; }
+
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
-            var signingConfigurations = new SigningConfigurations();
-            services.AddSingleton(signingConfigurations);
+            signingConfigurations = new SigningConfigurations();
+            tokenConfigurations = new TokenConfigurations();
 
-            var tokenConfigurations = new TokenConfigurations();
-            new ConfigureFromConfigurationOptions<TokenConfigurations>(
-                configuration.GetSection("TokenConfigurations"))
+            new ConfigureFromConfigurationOptions<TokenConfigurations>(configuration.GetSection("TokenConfigurations"))
                     .Configure(tokenConfigurations);
-            services.AddSingleton(tokenConfigurations);
+           
 
             services.AddAuthentication(authOptions =>
             {
@@ -49,8 +54,38 @@ namespace Rdcs.Authorization
             {
                 auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser().Build());
+                    .RequireAuthenticatedUser()
+                    .Build());
             });
+        }
+
+        public static AuthorizationToken GenerateToken(string userIdentification)
+        {
+            ClaimsIdentity identity = new ClaimsIdentity(
+                    new GenericIdentity(userIdentification, "Login"),
+                    new[] {
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                        new Claim(JwtRegisteredClaimNames.UniqueName, userIdentification)
+                    }
+                );
+
+            DateTime created = DateTime.Now;
+            DateTime expiration = created +
+                TimeSpan.FromSeconds(tokenConfigurations.Seconds);
+
+            var handler = new JwtSecurityTokenHandler();
+            var securityToken = handler.CreateToken(new SecurityTokenDescriptor
+            {
+                Issuer = tokenConfigurations.Issuer,
+                Audience = tokenConfigurations.Audience,
+                SigningCredentials = signingConfigurations.SigningCredentials,
+                Subject = identity,
+                NotBefore = created,
+                Expires = expiration
+            });
+            var token = handler.WriteToken(securityToken);
+
+            return new AuthorizationToken(created, expiration);
         }
     }
 }

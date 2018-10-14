@@ -13,5 +13,8 @@ namespace MyAPI.DomainModel.Entities
 
         [Column("txt_access_key")]
         public string AccessKey { get; set; }
+
+        [Column("txt_username")]
+        public string Username { get; set; }
     }
 }

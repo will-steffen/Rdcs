@@ -21,7 +21,7 @@ namespace Rdcs.BaseEntities
 
         protected ActionResult Send(HttpStatusCode code, object response)
         {
-            return StatusCode((int)code, new JsonResult(response));
+            return StatusCode((int)code, response);
         }
     }
 }
