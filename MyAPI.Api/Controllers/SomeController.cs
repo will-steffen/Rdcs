@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAPI.Services.Entities;
 using Rdcs.Attributes;
@@ -11,6 +12,7 @@ namespace MyAPI.Api.Controllers
         [Autowired]
         private SomeService someService;
 
+        [Authorize("Bearer")]
         [HttpGet]
         public ActionResult Get()
         {

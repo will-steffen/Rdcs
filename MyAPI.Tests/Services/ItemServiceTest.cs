@@ -12,8 +12,8 @@ namespace MyAPI.Tests.Services
 {
     public class ItemServiceTest : IClassFixture<RdcsDependencyFixture<ApplicationContext>>
     {
-        ItemService itemService;
-        ItemDataAccess itemDataAccess;
+        private ItemService itemService;
+        private ItemDataAccess itemDataAccess;
 
         public ItemServiceTest(RdcsDependencyFixture<ApplicationContext> fixture)
         {            

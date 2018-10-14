@@ -9,7 +9,7 @@ namespace Rdcs.BaseEntities
     {
         protected readonly RdcsContext Context;
 
-        public virtual T GetById(int id)
+        public virtual T GetById(long id)
         {
             return Context.Set<T>().Find(id);
         }

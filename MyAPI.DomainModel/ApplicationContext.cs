@@ -10,5 +10,6 @@ namespace MyAPI.DomainModel
     public class ApplicationContext : RdcsContext
     {
         public DbSet<Item> Item { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }

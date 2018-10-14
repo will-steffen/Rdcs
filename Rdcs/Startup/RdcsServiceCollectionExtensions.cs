@@ -5,6 +5,8 @@ using System.Text;
 using Rdcs.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Rdcs.Context;
+using Rdcs.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace Rdcs.Startup
 {
@@ -19,7 +21,18 @@ namespace Rdcs.Startup
             services.AddMvc()
                 .AddControllersAsServices()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             DependencyResolver.Configure(services, typeof(RdcsContextType));
         }
+
+        /// <summary>
+        /// Configura autorização usando JWT
+        /// </summary>
+        public static void AddRdcsJWTAuthorizarion(this IServiceCollection services, IConfiguration configuration)            
+        {
+            AuthorizationConfigurer.Configure(services, configuration);
+        }
+
+
     }
 }
