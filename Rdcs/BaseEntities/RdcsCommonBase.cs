@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rdcs.BaseEntities
 {
-    public class RdcsService : RdcsCommonBase
+    public class RdcsCommonBase
     {
     }
 }

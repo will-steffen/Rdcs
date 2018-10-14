@@ -16,9 +16,9 @@ namespace MyAPI.Api.Controllers
         private ItemDataAccess itemDataAccess;
 
         [HttpGet]
-        public ActionResult Get()
+        public JsonResult Get()
         {
-            return Send(itemDataAccess.List());
+            return Json(itemDataAccess.List());
         }
 
         [HttpPost]

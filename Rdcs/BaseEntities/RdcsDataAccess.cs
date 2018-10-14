@@ -5,7 +5,7 @@ using Rdcs.Context;
 
 namespace Rdcs.BaseEntities
 {
-    public class RdcsDataAccess<T> where T : RdcsModel
+    public class RdcsDataAccess<T> : RdcsCommonBase where T : RdcsModel
     {
         protected readonly RdcsContext Context;
 

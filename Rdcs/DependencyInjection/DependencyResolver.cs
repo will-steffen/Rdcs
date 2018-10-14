@@ -24,9 +24,14 @@ namespace Rdcs.DependencyInjection
             });
         }
 
-        private static dynamic GetInstance(Type serviceType, Type rdcsContextType)
+        public static dynamic GetInstance(Type serviceType, Type rdcsContextType)
         {
             RdcsContext ctx = (RdcsContext)Activator.CreateInstance(rdcsContextType);
+            return GetInstance(serviceType, ctx);
+        }
+
+        public static dynamic GetInstance(Type serviceType, RdcsContext ctx)
+        {
             DependencyContainer DepContainer = new DependencyContainer(ctx);
             dynamic obj = DepContainer.GetInstanceOf(serviceType);
             FieldInfo[] fields = serviceType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);

@@ -9,7 +9,12 @@ namespace Rdcs.BaseEntities
     [ApiController]
     public class RdcsController : ControllerBase
     {
-        protected ActionResult Send(object response = null)
+        protected JsonResult Json(object response)
+        {
+            return new JsonResult(response);
+        }
+
+        protected ActionResult Send(object response)
         {
             return Send(HttpStatusCode.OK, response);
         }

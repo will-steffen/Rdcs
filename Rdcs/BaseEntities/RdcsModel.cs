@@ -2,7 +2,7 @@
 
 namespace Rdcs.BaseEntities
 {
-    public class RdcsModel
+    public class RdcsModel : RdcsCommonBase
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
