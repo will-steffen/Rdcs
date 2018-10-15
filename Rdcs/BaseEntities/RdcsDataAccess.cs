@@ -36,6 +36,31 @@ namespace Rdcs.BaseEntities
             Context.SaveChanges();
         }
 
+        public virtual void Save(List<T> modelList)
+        {
+            modelList.ForEach(model =>
+            {
+                DbSet<T> set = Context.Set<T>();
+                // ValidateSaveModel(set, model);
+
+                if (model.Id == 0)
+                {
+                    set.Add(model);
+                }
+                else
+                {
+                    var attached = set.Local.FirstOrDefault(x => x.Id == model.Id);
+                    if (attached != null)
+                    {
+                        Context.Detach(attached);
+                    }
+                    set.Attach(model);
+                    Context.Entry(model).State = EntityState.Modified;
+                }
+            });
+            Context.SaveChanges();
+        }
+
         public virtual void Delete(T model)
         {
             Context.Set<T>().Remove(model);
@@ -45,5 +70,7 @@ namespace Rdcs.BaseEntities
         {
             return Context.Set<T>();
         }
+
+       
     }
 }

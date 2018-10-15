@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyAPI.DomainModel.Authorization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -16,5 +17,8 @@ namespace MyAPI.DomainModel.Entities
 
         [Column("txt_username")]
         public string Username { get; set; }
+
+        [InverseProperty("User")]
+        public virtual ICollection<LinkGroupUser> GroupUserList { get; set; }
     }
 }

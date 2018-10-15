@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\MyAPI.Api",
+    "\\MyAPI.Api\\Controllers",
     "\\MyAPI.Tests",
     "\\MyAPI.Tests\\Api"
   ],
-  "SelectedNode": "\\MyAPI.Tests\\Api",
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }

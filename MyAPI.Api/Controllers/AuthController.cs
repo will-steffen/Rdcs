@@ -21,6 +21,9 @@ namespace MyAPI.Api.Controllers
         [Autowired]
         private UserDataAccess userDataAccess;
 
+        [Autowired]
+        private AuthorizationCheckService authorizationCheckService;
+
         [HttpPost("login")]
         public object Login([FromBody] string username)        
         {
@@ -45,6 +48,13 @@ namespace MyAPI.Api.Controllers
         public ActionResult<IEnumerable<User>> Get()
         {
             return Send(userDataAccess.List());
+        }
+
+        [HttpGet("update-permission-schema")]
+        public ActionResult UpdatePermissions()
+        {
+            authorizationCheckService.UpdatePermissionsSchema();
+            return Send("Updated");
         }
     }
 }

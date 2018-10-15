@@ -11,5 +11,7 @@ namespace Rdcs.Authorization
         {
             return false;
         }
+
+        public virtual void UpdatePermissionsSchema() { }
     }
 }

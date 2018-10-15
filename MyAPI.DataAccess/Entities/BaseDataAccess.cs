@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MyAPI.DataAccess.Entities
 {
-    public class BaseDataAccess<T> : RdcsDataAccess<T> where T : BaseModel
+    public class BaseDataAccess<T> : RdcsDataAccess<T> where T : RdcsModel
     {
     }
 }
