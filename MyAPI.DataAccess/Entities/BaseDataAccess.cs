@@ -1,4 +1,5 @@
-﻿using MyAPI.DomainModel.Entities;
+﻿using MyAPI.DomainModel;
+using MyAPI.DomainModel.Entities;
 using Rdcs.BaseEntities;
 using System;
 using System.Collections.Generic;

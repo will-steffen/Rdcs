@@ -13,7 +13,7 @@ namespace MyAPI.DomainModel.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("MyAPI.DomainModel.Authorization.Group", b =>
@@ -64,6 +64,8 @@ namespace MyAPI.DomainModel.Migrations
                         .HasColumnName("id_permission_group");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdPermission");
 
                     b.HasIndex("IdPermissionGroup");
 
@@ -132,19 +134,19 @@ namespace MyAPI.DomainModel.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MyAPI.DomainModel.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("GroupUserList")
                         .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("MyAPI.DomainModel.Authorization.LinkPermissionGroup", b =>
                 {
-                    b.HasOne("MyAPI.DomainModel.Authorization.Group", "Group")
+                    b.HasOne("MyAPI.DomainModel.Authorization.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("IdPermissionGroup")
+                        .HasForeignKey("IdPermission")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MyAPI.DomainModel.Authorization.Permission", "Permission")
+                    b.HasOne("MyAPI.DomainModel.Authorization.Group", "Group")
                         .WithMany()
                         .HasForeignKey("IdPermissionGroup")
                         .OnDelete(DeleteBehavior.Cascade);

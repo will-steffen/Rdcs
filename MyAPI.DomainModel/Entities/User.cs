@@ -18,7 +18,6 @@ namespace MyAPI.DomainModel.Entities
         [Column("txt_username")]
         public string Username { get; set; }
 
-        [InverseProperty("User")]
-        public virtual ICollection<LinkGroupUser> GroupUserList { get; set; }
+        public virtual List<LinkGroupUser> GroupUserList { get; set; }
     }
 }

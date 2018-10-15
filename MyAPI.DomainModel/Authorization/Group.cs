@@ -12,5 +12,7 @@ namespace MyAPI.DomainModel.Authorization
     {
         [Column("txt_name")]
         public string Name { get; set; }
+
+        public virtual List<LinkPermissionGroup> PermissionGroupList { get; set; }
     }
 }

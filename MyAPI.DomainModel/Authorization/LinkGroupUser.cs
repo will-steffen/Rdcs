@@ -19,6 +19,7 @@ namespace MyAPI.DomainModel.Authorization
         public Group Group { get; set; }
 
         [ForeignKey("IdUser")]
+        [InverseProperty("GroupUserList")]
         public User User { get; set; }
     }
 }

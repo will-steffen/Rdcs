@@ -14,20 +14,19 @@ namespace MyAPI.Services.Entities
 {
     public class AuthorizationCheckService : RdcsAuthorizationCheckService
     {
-        [Autowired]
-        private UserDataAccess userDataAccess;
+        //[Autowired]
+        //private UserDataAccess userDataAccess;
 
         [Autowired]
         private PermissionDataAccess permissionDataAccess;
 
         public override bool HasPermission(long userId, RdcsPermission requiredPermission)
         {
-            User user = userDataAccess.GetById(userId);
-            if (user != null)
-            {
-                return true;
-            }
-            return false;
+            //User user = userDataAccess.GetById(userId);
+            List<Permission> permissionList = permissionDataAccess.GetByUserId(userId).ToList();
+            return permissionList.Any(p =>
+                p.Type == requiredPermission.Type &&
+                (int)p.Level >= (int)requiredPermission.Level);
         }
 
         public override void UpdatePermissionsSchema()

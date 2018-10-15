@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyAPI.Api.Dtos.Request;
+using MyAPI.DataAccess.Authorization;
 using MyAPI.DataAccess.Entities;
+using MyAPI.DomainModel.Authorization;
 using MyAPI.DomainModel.Entities;
 using MyAPI.Services.Entities;
 using Rdcs.Attributes;
@@ -47,7 +49,8 @@ namespace MyAPI.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<User>> Get()
         {
-            return Send(userDataAccess.List());
+            List<User> userList = userDataAccess.List().ToList();
+            return Send(userList);
         }
 
         [HttpGet("update-permission-schema")]

@@ -16,9 +16,10 @@ namespace MyAPI.DomainModel.Authorization
         public long IdPermission { get; set; }
 
         [ForeignKey("IdPermissionGroup")]
+        [InverseProperty("PermissionGroupList")]
         public Group Group { get; set; }
 
-        [ForeignKey("IdPermissionGroup")]
+        [ForeignKey("IdPermission")]
         public Permission Permission { get; set; }
     }
 }
