@@ -8,6 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Principal;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using Rdcs.Constants;
 
 namespace Rdcs.Authorization
 {
@@ -16,14 +17,15 @@ namespace Rdcs.Authorization
         public static SigningConfigurations signingConfigurations { get; private set; }
         public static TokenConfigurations tokenConfigurations { get; private set; }
 
-        public static void Configure(IServiceCollection services, IConfiguration configuration)
+        public static void Configure(IServiceCollection services, IConfiguration configuration, 
+            Type authorizationCheckServiceType, Type rdcsContextType)
         {
             signingConfigurations = new SigningConfigurations();
             tokenConfigurations = new TokenConfigurations();
 
-            new ConfigureFromConfigurationOptions<TokenConfigurations>(configuration.GetSection("TokenConfigurations"))
+            new ConfigureFromConfigurationOptions<TokenConfigurations>(configuration.GetSection(Constant.CONFIG_TOKEN_PROPERTIES))
                     .Configure(tokenConfigurations);
-           
+
 
             services.AddAuthentication(authOptions =>
             {
@@ -50,21 +52,32 @@ namespace Rdcs.Authorization
 
             // Ativa o uso do token como forma de autorizar o acesso
             // a recursos deste projeto
-            services.AddAuthorization(auth =>
-            {
-                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build());
-            });
+            services.AddSingleton<IAuthorizationPolicyProvider>(ctx => 
+                new RdcsAuthorizationPolicyProvider(authorizationCheckServiceType, rdcsContextType));
+
+            //services.AddAuthorization(auth =>
+            //{
+            //    auth.AddPolicy(Constant.PERMISSION_POLICY_NAME, new AuthorizationPolicyBuilder()
+            //        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+            //        .RequireAuthenticatedUser()
+            //        .RequireAssertion(ctx => IsAuthorized(ctx))
+            //        .Build());                
+            //});
         }
 
-        public static AuthorizationToken GenerateToken(string userIdentification)
+        //public static bool IsAuthorized(AuthorizationHandlerContext ctx)
+        //{
+        //    return true;
+        //}
+
+        public static AuthorizationToken GenerateToken(long userId)
         {
+            string guid = Guid.NewGuid().ToString("N");
+            string userIdentification = userId.ToString();
             ClaimsIdentity identity = new ClaimsIdentity(
-                    new GenericIdentity(userIdentification, "Login"),
+                    new GenericIdentity(userIdentification, Constant.GENERIC_IDENTITY_TYPE),
                     new[] {
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                        new Claim(JwtRegisteredClaimNames.Jti, guid),
                         new Claim(JwtRegisteredClaimNames.UniqueName, userIdentification)
                     }
                 );
@@ -85,7 +98,16 @@ namespace Rdcs.Authorization
             });
             var token = handler.WriteToken(securityToken);
 
-            return new AuthorizationToken(created, expiration);
+            return new AuthorizationToken(created, expiration, token);
+        }
+
+        public static long GetUserId(ClaimsPrincipal user)
+        {
+            if (!string.IsNullOrEmpty(user.Identity.Name))
+            {
+                return long.Parse(user.Identity.Name);
+            }
+            return 0;
         }
     }
 }

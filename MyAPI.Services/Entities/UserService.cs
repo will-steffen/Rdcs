@@ -30,7 +30,7 @@ namespace MyAPI.Services.Entities
 
             if (string.IsNullOrEmpty(user.AccessKey))
             {
-                return AuthorizationConfigurer.GenerateToken(user.Id.ToString());
+                return AuthorizationConfigurer.GenerateToken(user.Id);
             }
             else
             {

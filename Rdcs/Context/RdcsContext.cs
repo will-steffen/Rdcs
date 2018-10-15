@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Rdcs.Constants;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,20 +20,20 @@ namespace Rdcs.Context
         {            
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
+                .AddJsonFile(Constant.CONFIG_FILE_NAME)
                 .Build();
             if (string.IsNullOrEmpty(connectionString))
             {
-                connectionString = configuration.GetConnectionString("DefaultConnection");
-                useInMemory = configuration.GetValue<bool>("ConnectionStrings:UseInMemory");
+                connectionString = configuration.GetConnectionString(Constant.CONFIG_DEFAULT_CONNECION);
+                useInMemory = configuration.GetValue<bool>(Constant.CONFIG_USE_IN_MEMORY_DB);
             }
             if (useInMemory)
             {
-                optionsBuilder.UseInMemoryDatabase("in_memory_name");
+                optionsBuilder.UseInMemoryDatabase(Constant.MEMORY_DB_NAME);
             }
             else
             {
-                optionsBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseMySql(configuration.GetConnectionString(Constant.CONFIG_DEFAULT_CONNECION));
             }
         }
     }

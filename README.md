@@ -29,3 +29,7 @@ https://medium.com/@renato.groffe/asp-net-core-2-0-autentica%C3%A7%C3%A3o-em-api
 filtros e autorização (permissões)
 https://docs.microsoft.com/pt-br/aspnet/core/mvc/controllers/filters?view=aspnetcore-2.1
 https://docs.microsoft.com/pt-br/aspnet/core/security/authorization/index?view=aspnetcore-2.1
+
+custom authorization
+https://joonasw.net/view/apply-authz-by-default
+https://docs.microsoft.com/en-us/aspnet/core/security/authorization/iauthorizationpolicyprovider?view=aspnetcore-2.1

@@ -14,11 +14,12 @@ namespace Rdcs.Authorization
 
         public AuthorizationToken(){ }
 
-        public AuthorizationToken(DateTime created, DateTime expiration)
+        public AuthorizationToken(DateTime created, DateTime expiration, string token)
         {
             this.authenticated = true;
             this.created = created.ToString("yyyy-MM-dd HH:mm:ss");
             this.expiration = expiration.ToString("yyyy-MM-dd HH:mm:ss");
+            this.accessToken = token;
         }
 
         public AuthorizationToken(string message)

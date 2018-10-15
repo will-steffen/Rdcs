@@ -8,6 +8,7 @@ using Rdcs.Context;
 using Rdcs.Attributes;
 using System.Collections.Generic;
 using Rdcs.BaseEntities;
+using Rdcs.Constants;
 
 namespace Rdcs.DependencyInjection
 {
@@ -66,7 +67,7 @@ namespace Rdcs.DependencyInjection
         private static void ResolveContext(object obj, DependencyContainer DepContainer)
         {
             FieldInfo[] fields = obj.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-            FieldInfo context = fields.Where(x => x.Name.Equals("Context")).FirstOrDefault();
+            FieldInfo context = fields.Where(x => x.Name.Equals(Constant.CONTEXT_PROPERTY_NAME)).FirstOrDefault();
             if (context != null)
             {
                 context.SetValue(obj, DepContainer.Context);

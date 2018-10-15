@@ -13,24 +13,23 @@ namespace Rdcs.Startup
     public static class RdcsServiceCollectionExtensions
     {
         /// <summary>
-        /// Inicia o Rdcs. Configura Injeção de Dependência.
+        /// Inicia o Rdcs. 
+        /// Configura Injeção de Dependência.
+        /// Configura Permissionamento.
         /// </summary>
-        public static void AddRdcs<RdcsContextType>(this IServiceCollection services)
+        public static void AddRdcs<RdcsContextType, RdcsAuthorizationCheckServiceType>(
+            this IServiceCollection services, IConfiguration configuration)
             where RdcsContextType : RdcsContext
+            where RdcsAuthorizationCheckServiceType : RdcsAuthorizationCheckService
         {
+            //services.AddMvc(opt => opt.Conventions.Add(new AuthorizationFilterConfigurer()))
             services.AddMvc()
                 .AddControllersAsServices()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             DependencyResolver.Configure(services, typeof(RdcsContextType));
-        }
-
-        /// <summary>
-        /// Configura autorização usando JWT
-        /// </summary>
-        public static void AddRdcsJWTAuthorizarion(this IServiceCollection services, IConfiguration configuration)            
-        {
-            AuthorizationConfigurer.Configure(services, configuration);
+            AuthorizationConfigurer.Configure(services, configuration, 
+                typeof(RdcsAuthorizationCheckServiceType), typeof(RdcsContextType));
         }
 
 
